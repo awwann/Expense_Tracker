@@ -129,3 +129,8 @@ class ExpenseTrackerApp:
         """Сохраняет расходы в файл JSON."""
         with open(JSON_FILE, 'w', encoding='utf-8') as f:
             json.dump(self.expenses, f, ensure_ascii=False, indent=2)
+
+def display_expenses(self):
+    """Отображает расходы в таблице."""
+    for row in self.tree.get_children():
+        self.tree.delete(row)
