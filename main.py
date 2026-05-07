@@ -130,17 +130,46 @@ class ExpenseTrackerApp:
         with open(JSON_FILE, 'w', encoding='utf-8') as f:
             json.dump(self.expenses, f, ensure_ascii=False, indent=2)
 
-def display_expenses(self):
-    """Отображает расходы в таблице."""
-    for row in self.tree.get_children():
-        self.tree.delete(row)
+    def display_expenses(self):
+       """Отображает расходы в таблице."""
+        for row in self.tree.get_children():
+           self.tree.delete(row)
 
-    for expense in self.expenses:
-        self.tree.insert("", "end", values=(expense["id"], expense["sum"], expense["category"], expense["date"]))
+        for expense in self.expenses:
+           self.tree.insert("", "end", values=(expense["id"], expense["sum"], expense["category"], expense["date"]))
 
-def add_expense(self):
-    """Обрабатывает добавление нового расхода."""
-    try:
-        sum_value = float(self.sum_entry.get())
-        if sum_value <= 0:
-            raise ValueError("Сумма должна быть положительной.")
+    def add_expense(self):
+       """Обрабатывает добавление нового расхода."""
+       try:
+           sum_value = float(self.sum_entry.get())
+           if sum_value <= 0:
+               raise ValueError("Сумма должна быть положительной.")
+
+           category = self.category_combobox.get()
+           date_str = self.date_entry.get_date().strftime('%d.%m.%Y')
+
+           new_expense = {
+              "id": len(self.expenses) + 1,
+              "sum": sum_value,
+              "category": category,
+              "date": date_str
+           }
+
+           self.expenses.append(new_expense)
+           self.save_expenses()
+           self.display_expenses()
+
+           # Очистка полей после успешного добавления
+           self.sum_entry.delete(0, 'end')
+           messagebox.showinfo("Успех", "Расход добавлен!")
+
+       except ValueError as e:
+           messagebox.showerror("Ошибка ввода", str(e))
+       except Exception as e:
+           messagebox.showerror("Ошибка", f"Произошла непредвиденная ошибка: {e}")
+
+    def apply_filter(self):
+       """Применяет фильтры к таблице."""
+       filtered_cat = self.filter_category.get()
+       date_from = self.filter_date_from.get_date()
+       date_to = self.filter_date_to.get_date()
