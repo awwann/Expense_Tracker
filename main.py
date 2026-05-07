@@ -132,10 +132,10 @@ class ExpenseTrackerApp:
 
     def display_expenses(self):
        """Отображает расходы в таблице."""
-        for row in self.tree.get_children():
+       for row in self.tree.get_children():
            self.tree.delete(row)
 
-        for expense in self.expenses:
+       for expense in self.expenses:
            self.tree.insert("", "end", values=(expense["id"], expense["sum"], expense["category"], expense["date"]))
 
     def add_expense(self):
@@ -173,3 +173,21 @@ class ExpenseTrackerApp:
        filtered_cat = self.filter_category.get()
        date_from = self.filter_date_from.get_date()
        date_to = self.filter_date_to.get_date()
+
+       filtered_data = []
+
+       for expense in self.expenses:
+           # Проверка категории
+           cat_match = (filtered_cat == "Все") or (expense["category"] == filtered_cat)
+
+           # Проверка даты (если обе даты выбраны)
+           date_str = expense["date"]
+           expense_date = datetime.strptime(date_str, '%d.%m.%Y').date()
+
+           date_match = True
+           if date_from and date_to:
+               if not (date_from <= expense_date <= date_to):
+                   date_match = False
+
+           if cat_match and date_match:
+               filtered_data.append(expense)
