@@ -38,3 +38,11 @@ class ExpenseTrackerApp:
         tk.Label(input_frame, text="Дата:").grid(row=0, column=4, sticky='w')
         self.date_entry = DateEntry(input_frame, date_pattern='dd.mm.yyyy', width=15)
         self.date_entry.grid(row=0, column=5, padx=5)
+
+        # Кнопка добавления
+        add_button = tk.Button(input_frame, text="Добавить расход", command=self.add_expense)
+        add_button.grid(row=0, column=6, padx=15)
+
+        # Фрейм с таблицей и фильтрами
+        main_frame = tk.Frame(root)
+        main_frame.pack(fill='both', expand=True, padx=20)
