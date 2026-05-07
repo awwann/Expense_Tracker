@@ -115,3 +115,12 @@ class ExpenseTrackerApp:
 
         self.sum_result_label = tk.Label(analysis_frame, text="Сумма: 0 ₽", font=('Arial', 12))
         self.sum_result_label.grid(row=3, column=0)
+
+    def load_expenses(self):
+        """Загружает расходы из файла JSON."""
+        try:
+            with open(JSON_FILE, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                return data
+        except (FileNotFoundError, json.JSONDecodeError):
+            return []
