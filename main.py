@@ -191,3 +191,27 @@ class ExpenseTrackerApp:
 
            if cat_match and date_match:
                filtered_data.append(expense)
+
+               # Очистка и заполнение таблицы отфильтрованными данными
+           for row in self.tree.get_children():
+               self.tree.delete(row)
+
+           for expense in filtered_data:
+               self.tree.insert("", "end", values=(expense["id"], expense["sum"], expense["category"], expense["date"]))
+
+           def calculate_sum_period(self):
+               """Считает сумму расходов за выбранный период."""
+               total_sum = 0.0
+               date_from = self.analysis_date_from.get_date()
+               date_to = self.analysis_date_to.get_date()
+
+               if not (date_from and date_to):
+                   messagebox.showwarning("Предупреждение", "Пожалуйста, выберите обе даты для анализа.")
+                   return
+
+               for expense in self.expenses:
+                   expense_date = datetime.strptime(expense["date"], '%d.%m.%Y').date()
+                   if date_from <= expense_date <= date_to:
+                       total_sum += expense["sum"]
+
+               self.sum_result_label.config(text=f"Сумма: {total_sum:.2f} ₽")
