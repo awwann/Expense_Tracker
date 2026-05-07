@@ -134,3 +134,13 @@ def display_expenses(self):
     """Отображает расходы в таблице."""
     for row in self.tree.get_children():
         self.tree.delete(row)
+
+    for expense in self.expenses:
+        self.tree.insert("", "end", values=(expense["id"], expense["sum"], expense["category"], expense["date"]))
+
+def add_expense(self):
+    """Обрабатывает добавление нового расхода."""
+    try:
+        sum_value = float(self.sum_entry.get())
+        if sum_value <= 0:
+            raise ValueError("Сумма должна быть положительной.")
