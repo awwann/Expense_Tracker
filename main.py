@@ -73,3 +73,22 @@ class ExpenseTrackerApp:
 
         filter_btn = tk.Button(filter_frame, text="Применить фильтр", command=self.apply_filter)
         filter_btn.pack(side='left', padx=(20, 0))
+
+        # Таблица расходов (Treeview)
+        columns = ("id", "sum", "category", "date")
+        self.tree = ttk.Treeview(main_frame, columns=columns, show="headings")
+
+        # Настройка ширины колонок и заголовков
+        self.tree.column("sum", width=80, anchor='e')
+        self.tree.column("category", width=150)
+        self.tree.column("date", width=120)
+        self.tree.heading("sum", text="Сумма")
+        self.tree.heading("category", text="Категория")
+        self.tree.heading("date", text="Дата")
+
+        self.tree.pack(fill='both', expand=True, pady=(10, 0))
+
+        # Полоса прокрутки для таблицы
+        scrollbar = ttk.Scrollbar(main_frame, orient="vertical", command=self.tree.yview)
+        self.tree.configure(yscrollcommand=scrollbar.set)
+        scrollbar.pack(side="right", fill="y")
