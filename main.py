@@ -215,3 +215,9 @@ class ExpenseTrackerApp:
                        total_sum += expense["sum"]
 
                self.sum_result_label.config(text=f"Сумма: {total_sum:.2f} ₽")
+
+       if __name__ == "__main__":
+           root = tk.Tk()
+           app = ExpenseTrackerApp(root)
+           app.display_expenses()  # Отобразить данные при запуске
+           root.mainloop()
