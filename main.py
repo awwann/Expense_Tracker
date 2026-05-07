@@ -169,55 +169,55 @@ class ExpenseTrackerApp:
            messagebox.showerror("Ошибка", f"Произошла непредвиденная ошибка: {e}")
 
     def apply_filter(self):
-       """Применяет фильтры к таблице."""
-       filtered_cat = self.filter_category.get()
-       date_from = self.filter_date_from.get_date()
-       date_to = self.filter_date_to.get_date()
+      """Применяет фильтры к таблице."""
+      filtered_cat = self.filter_category.get()
+      date_from = self.filter_date_from.get_date()
+      date_to = self.filter_date_to.get_date()
 
-       filtered_data = []
+      filtered_data = []
 
-       for expense in self.expenses:
-           # Проверка категории
-           cat_match = (filtered_cat == "Все") or (expense["category"] == filtered_cat)
+      for expense in self.expenses:
+            # Проверка категории
+         cat_match = (filtered_cat == "Все") or (expense["category"] == filtered_cat)
 
-           # Проверка даты (если обе даты выбраны)
-           date_str = expense["date"]
-           expense_date = datetime.strptime(date_str, '%d.%m.%Y').date()
+         # Проверка даты (если обе даты выбраны)
+         date_str = expense["date"]
+         expense_date = datetime.strptime(date_str, '%d.%m.%Y').date()
 
-           date_match = True
-           if date_from and date_to:
-               if not (date_from <= expense_date <= date_to):
-                   date_match = False
+         date_match = True
+         if date_from and date_to:
+             if not (date_from <= expense_date <= date_to):
+                  date_match = False
 
-           if cat_match and date_match:
-               filtered_data.append(expense)
+         if cat_match and date_match:
+            filtered_data.append(expense)
 
-               # Очистка и заполнение таблицы отфильтрованными данными
-           for row in self.tree.get_children():
+      # Очистка и заполнение таблицы отфильтрованными данными
+         for row in self.tree.get_children():
                self.tree.delete(row)
 
-           for expense in filtered_data:
+         for expense in filtered_data:
                self.tree.insert("", "end", values=(expense["id"], expense["sum"], expense["category"], expense["date"]))
 
-           def calculate_sum_period(self):
-               """Считает сумму расходов за выбранный период."""
-               total_sum = 0.0
-               date_from = self.analysis_date_from.get_date()
-               date_to = self.analysis_date_to.get_date()
+    def calculate_sum_period(self):
+        """Считает сумму расходов за выбранный период."""
+        total_sum = 0.0
+        date_from = self.analysis_date_from.get_date()
+        date_to = self.analysis_date_to.get_date()
 
-               if not (date_from and date_to):
-                   messagebox.showwarning("Предупреждение", "Пожалуйста, выберите обе даты для анализа.")
-                   return
+        if not (date_from and date_to):
+            messagebox.showwarning("Предупреждение", "Пожалуйста, выберите обе даты для анализа.")
+            return
 
-               for expense in self.expenses:
-                   expense_date = datetime.strptime(expense["date"], '%d.%m.%Y').date()
-                   if date_from <= expense_date <= date_to:
-                       total_sum += expense["sum"]
+        for expense in self.expenses:
+             expense_date = datetime.strptime(expense["date"], '%d.%m.%Y').date()
+             if date_from <= expense_date <= date_to:
+                      total_sum += expense["sum"]
 
-               self.sum_result_label.config(text=f"Сумма: {total_sum:.2f} ₽")
+        self.sum_result_label.config(text=f"Сумма: {total_sum:.2f} ₽")
 
-       if __name__ == "__main__":
-           root = tk.Tk()
-           app = ExpenseTrackerApp(root)
-           app.display_expenses()  # Отобразить данные при запуске
-           root.mainloop()
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = ExpenseTrackerApp(root)
+    app.display_expenses()  # Отобразить данные при запуске
+    root.mainloop()
