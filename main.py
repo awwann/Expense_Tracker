@@ -92,3 +92,26 @@ class ExpenseTrackerApp:
         scrollbar = ttk.Scrollbar(main_frame, orient="vertical", command=self.tree.yview)
         self.tree.configure(yscrollcommand=scrollbar.set)
         scrollbar.pack(side="right", fill="y")
+
+        # Фрейм для анализа (сумма за период)
+        analysis_frame = tk.LabelFrame(root, text="Анализ расходов", padx=10, pady=10)
+        analysis_frame.pack(pady=10, fill='x', padx=20)
+
+        tk.Label(analysis_frame, text="Период:").grid(row=0, column=0, sticky='w')
+
+        period_subframe = tk.Frame(analysis_frame)
+        period_subframe.grid(row=1, column=0, sticky='w')
+
+        tk.Label(period_subframe, text="с").pack(side='left')
+        self.analysis_date_from = DateEntry(period_subframe, date_pattern='dd.mm.yyyy', width=10)
+        self.analysis_date_from.pack(side='left', padx=(2, 5))
+
+        tk.Label(period_subframe, text="по").pack(side='left')
+        self.analysis_date_to = DateEntry(period_subframe, date_pattern='dd.mm.yyyy', width=10)
+        self.analysis_date_to.pack(side='left', padx=(2, 5))
+
+        calc_btn = tk.Button(analysis_frame, text="Посчитать сумму", command=self.calculate_sum_period)
+        calc_btn.grid(row=2, column=0, pady=(5, 0))
+
+        self.sum_result_label = tk.Label(analysis_frame, text="Сумма: 0 ₽", font=('Arial', 12))
+        self.sum_result_label.grid(row=3, column=0)
