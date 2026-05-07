@@ -124,3 +124,8 @@ class ExpenseTrackerApp:
                 return data
         except (FileNotFoundError, json.JSONDecodeError):
             return []
+
+    def save_expenses(self):
+        """Сохраняет расходы в файл JSON."""
+        with open(JSON_FILE, 'w', encoding='utf-8') as f:
+            json.dump(self.expenses, f, ensure_ascii=False, indent=2)
