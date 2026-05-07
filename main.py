@@ -46,3 +46,30 @@ class ExpenseTrackerApp:
         # Фрейм с таблицей и фильтрами
         main_frame = tk.Frame(root)
         main_frame.pack(fill='both', expand=True, padx=20)
+
+        # Фильтры
+        filter_frame = tk.Frame(main_frame)
+        filter_frame.pack(fill='x', pady=(10, 0))
+
+        # Фильтр по категории
+        tk.Label(filter_frame, text="Фильтр по категории:").pack(side='left')
+        self.filter_category = ttk.Combobox(filter_frame, values=["Все"] + CATEGORIES, state="readonly", width=15)
+        self.filter_category.current(0)
+        self.filter_category.pack(side='left', padx=(5, 20))
+
+        # Фильтр по дате (от/до)
+        tk.Label(filter_frame, text="Фильтр по дате:").pack(side='left')
+
+        filter_date_subframe = tk.Frame(filter_frame)
+        filter_date_subframe.pack(side='left')
+
+        tk.Label(filter_date_subframe, text="с").pack(side='left')
+        self.filter_date_from = DateEntry(filter_date_subframe, date_pattern='dd.mm.yyyy', width=10)
+        self.filter_date_from.pack(side='left', padx=(2, 5))
+
+        tk.Label(filter_date_subframe, text="по").pack(side='left')
+        self.filter_date_to = DateEntry(filter_date_subframe, date_pattern='dd.mm.yyyy', width=10)
+        self.filter_date_to.pack(side='left', padx=(2, 5))
+
+        filter_btn = tk.Button(filter_frame, text="Применить фильтр", command=self.apply_filter)
+        filter_btn.pack(side='left', padx=(20, 0))
